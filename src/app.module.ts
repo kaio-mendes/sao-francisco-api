@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { BannersModule } from './banners/banners.module';
 import { ConfigModule } from '@nestjs/config';
+import { DownloadsModule } from './downloads/downloads.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    DownloadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
