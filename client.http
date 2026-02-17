@@ -5,3 +5,7 @@ Accept: application/json
 
 GET http://localhost:3010/downloads
 Accept: application/json
+
+
+GET http://localhost:3010/products
+Accept: application/json
