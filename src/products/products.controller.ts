@@ -6,10 +6,13 @@ export class ProductsController {
   constructor(private readonly productsServices: ProductsService) {}
 
   @Get()
-  findAll(@Query('category') category: string) {
+  findAll(
+    @Query('category') category: string,
+    @Query('offset') offset: string,
+  ) {
     if (category) {
-      return this.productsServices.filterByCategory(category);
+      return this.productsServices.filterByCategory({ category, offset });
     }
-    return this.productsServices.findAll();
+    return this.productsServices.findAll(offset);
   }
 }

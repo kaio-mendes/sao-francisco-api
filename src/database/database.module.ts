@@ -2,6 +2,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Banner } from 'src/banners/banner.model';
+import { Categories } from 'src/categories/categories.model';
 import { Downloads } from 'src/downloads/downloads.model';
 import { Products } from 'src/products/products.model';
 
@@ -15,7 +16,7 @@ import { Products } from 'src/products/products.model';
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       autoLoadModels: false,
-      models: [Banner, Downloads, Products],
+      models: [Banner, Downloads, Products, Categories],
       synchronize: false,
     }),
   ],
