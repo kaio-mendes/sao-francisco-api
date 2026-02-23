@@ -11,28 +11,21 @@ export class CategoriesService {
   ) {}
 
   findAll() {
-    /*const items: Categories[] = await this.categories.findAll({
-      where: {
-        categorie_name: { [Op.like]: '%linha-domestica%' },
-      },
-      order: [['categorie_name', 'ASC']],
-    });
-    const formattedItems = items.map<CategoriesDto>((item) => ({
-      categorie_name: item.categorie_name,
-      path_image: item.path_image,
-      head_description: item.head_description,
-      sequence: item.sequence,
-      url: `https://saofranciscobrasil.com.br/media/categorias/images/${item.path_image}`,
-    }));
-    return {
-      data: formattedItems,
-    };*/
     return this.categories.findAll({
+      order: [['sequence', 'asc']],
       where: {
         url: { [Op.like]: '%linha-domestica%' },
         path_image: {
           [Op.ne]: null,
         },
+      },
+    });
+  }
+
+  getByUrl(url: string) {
+    return this.categories.findOne({
+      where: {
+        url,
       },
     });
   }

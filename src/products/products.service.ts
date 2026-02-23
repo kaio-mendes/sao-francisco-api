@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Products } from './products.model';
-import { Op } from 'sequelize';
 import { PaginatedProducts } from './dto/paginatedProducts';
+import { Categories } from 'src/categories/categories.model';
+import { ProductsImages } from './products-image.model';
 
 @Injectable()
 export class ProductsService {
@@ -15,9 +16,35 @@ export class ProductsService {
     const parseOffset = Number(offset) || 0;
     const { rows, count } = await this.products.findAndCountAll({
       where: { visibility: 'S' },
+      attributes: ['id', 'product_name', 'sku', 'url'],
       limit: 10,
       order: [['id', 'ASC']],
       offset: parseOffset,
+      include: [
+        {
+          model: ProductsImages,
+          as: 'logo',
+          where: { product_logo: 1 },
+          required: false,
+          attributes: ['product_url', 'product_id', 'title'],
+        },
+        {
+          model: ProductsImages,
+          as: 'principal',
+          where: { principal: 1 },
+          required: false,
+        },
+        {
+          model: Categories,
+          as: 'categories',
+          attributes: [
+            'categorie_name',
+            'url',
+            'path_image',
+            'head_description',
+          ],
+        },
+      ],
     });
 
     return {
@@ -38,20 +65,41 @@ export class ProductsService {
   }) {
     const parseOffset = Number(offset) || 0;
     const { rows, count } = await this.products.findAndCountAll({
-      where: {
-        keyWords: {
-          [Op.like]: `%${category.trim()}%`,
-        },
-        visibility: 'S',
-      },
+      where: { visibility: 'S' },
+      attributes: ['id', 'product_name', 'sku', 'url'],
       limit: 10,
       order: [['id', 'ASC']],
       offset: parseOffset,
+      include: [
+        {
+          model: ProductsImages,
+          as: 'logo',
+          where: { product_logo: 1 },
+          required: false,
+          attributes: ['product_url', 'product_id', 'title'],
+        },
+        {
+          model: ProductsImages,
+          as: 'principal',
+          where: { principal: 1 },
+          required: false,
+        },
+        {
+          model: Categories,
+          as: 'categories',
+          attributes: [
+            'categorie_name',
+            'url',
+            'path_image',
+            'head_description',
+          ],
+          where: {
+            url: category,
+          },
+        },
+      ],
     });
-    console.log('Request:', {
-      offset,
-      category,
-    });
+
     return {
       data: rows,
       total: count,

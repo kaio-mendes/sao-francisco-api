@@ -1,4 +1,12 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { Products } from './products.model';
 
 @Table({ tableName: 'imagens_produtos', timestamps: false })
 export class ProductsImages extends Model {
@@ -16,12 +24,12 @@ export class ProductsImages extends Model {
   })
   product_url: string;
 
-  @Column({
-    type: DataType.NUMBER,
-    allowNull: false,
-    field: 'idProduto',
-  })
+  @ForeignKey(() => Products)
+  @Column({ field: 'idProduto', type: DataType.INTEGER })
   product_id: number;
+
+  @BelongsTo(() => Products, { foreignKey: 'product_id', as: 'product' })
+  product: Products;
 
   @Column({
     type: DataType.STRING,
@@ -31,13 +39,13 @@ export class ProductsImages extends Model {
   color: string;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
   })
   principal: number;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
     field: 'logo',
   })

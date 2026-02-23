@@ -1,4 +1,12 @@
-import { Table, Model, Column, DataType } from 'sequelize-typescript';
+import {
+  Table,
+  Model,
+  Column,
+  DataType,
+  BelongsToMany,
+} from 'sequelize-typescript';
+import { Products } from 'src/products/products.model';
+import { CategoriesProducts } from './categories-products.model';
 
 @Table({ tableName: 'categorias', timestamps: false })
 export class Categories extends Model {
@@ -29,9 +37,12 @@ export class Categories extends Model {
   head_description: string;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
     field: 'ordem',
   })
   sequence: number;
+
+  @BelongsToMany(() => Products, () => CategoriesProducts)
+  products: Products[];
 }

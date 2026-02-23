@@ -7,11 +7,15 @@ GET http://localhost:3010/downloads
 Accept: application/json
 
 ###
-GET http://localhost:3010/products?offset=10
+GET http://localhost:3010/products?offset=0
 Accept: application/json
 ###
-GET http://localhost:3010/products?category=vassoura&offset=0
+GET http://localhost:3010/products?category=Vassouras&offset=0
 Accept: application/json
 ###
 GET http://localhost:3010/categories
+Accept: application/json
+###
+
+GET http://localhost:3010/categories/linha-domestica/vassouras
 Accept: application/json

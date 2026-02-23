@@ -2,8 +2,10 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Banner } from 'src/banners/banner.model';
+import { CategoriesProducts } from 'src/categories/categories-products.model';
 import { Categories } from 'src/categories/categories.model';
 import { Downloads } from 'src/downloads/downloads.model';
+import { ProductsImages } from 'src/products/products-image.model';
 import { Products } from 'src/products/products.model';
 
 @Module({
@@ -16,7 +18,14 @@ import { Products } from 'src/products/products.model';
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       autoLoadModels: false,
-      models: [Banner, Downloads, Products, Categories],
+      models: [
+        Banner,
+        Downloads,
+        Products,
+        Categories,
+        ProductsImages,
+        CategoriesProducts,
+      ],
       synchronize: false,
     }),
   ],
