@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
 
 @Controller('products')
@@ -14,5 +14,10 @@ export class ProductsController {
       return this.productsServices.filterByCategory({ category, offset });
     }
     return this.productsServices.findAll(offset);
+  }
+
+  @Get(':url')
+  findProduct(@Param('url') url: string) {
+    return this.productsServices.findProduct(url);
   }
 }

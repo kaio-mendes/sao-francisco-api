@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Categories } from './categories.model';
 import { Op } from 'sequelize';
@@ -22,11 +22,17 @@ export class CategoriesService {
     });
   }
 
-  getByUrl(url: string) {
-    return this.categories.findOne({
+  async getByUrl(url: string) {
+    const category = await this.categories.findOne({
       where: {
         url,
       },
     });
+
+    if (!category) {
+      throw new NotFoundException('Produto não encontrado');
+    }
+
+    return category;
   }
 }

@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Products } from './products.model';
 import { PaginatedProducts } from './dto/paginatedProducts';
 import { Categories } from 'src/categories/categories.model';
 import { ProductsImages } from './products-image.model';
+import DOMPurify from 'isomorphic-dompurify';
 
 @Injectable()
 export class ProductsService {
@@ -107,5 +108,52 @@ export class ProductsService {
       offset: parseOffset,
       hasMore: parseOffset + rows.length < count,
     };
+  }
+
+  //biblioteca npm install isomorphic-dompurify para sanitizar description e não correr risco de injeção de dados
+
+  async findProduct(url: string) {
+    const product = await this.products.findOne({
+      where: { url: url, visibility: 'S' },
+      attributes: [
+        'id',
+        'product_name',
+        'sku',
+        'url',
+        'description',
+        'head_description',
+        'url_video',
+      ],
+      include: [
+        {
+          model: ProductsImages,
+          as: 'logo',
+          where: { product_logo: 1 },
+          required: false,
+          attributes: ['product_url', 'product_id', 'title'],
+        },
+        {
+          model: ProductsImages,
+          as: 'images',
+          required: false,
+          where: { product_logo: 0 },
+        },
+        {
+          model: Categories,
+          as: 'categories',
+          attributes: [
+            'categorie_name',
+            'url',
+            'path_image',
+            'head_description',
+          ],
+        },
+      ],
+    });
+    if (!product) {
+      throw new NotFoundException('Produto não encontrado');
+    }
+
+    return product;
   }
 }

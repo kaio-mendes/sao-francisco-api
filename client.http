@@ -10,12 +10,16 @@ Accept: application/json
 GET http://localhost:3010/products?offset=0
 Accept: application/json
 ###
-GET http://localhost:3010/products?category=Vassouras&offset=0
+GET http://localhost:3010/products?category=categorie_name&offset=0
 Accept: application/json
 ###
 GET http://localhost:3010/categories
 Accept: application/json
 ###
 
-GET http://localhost:3010/categories/linha-domestica/vassouras
+GET http://localhost:3010/categories?url=linha-domestica/rodos
+Accept: application/json
+
+###
+GET http://localhost:3010/products/vassoura-bellinha
 Accept: application/json
