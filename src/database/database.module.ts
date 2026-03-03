@@ -6,6 +6,7 @@ import { CategoriesProducts } from 'src/categories/categories-products.model';
 import { Categories } from 'src/categories/categories.model';
 import { Downloads } from 'src/downloads/downloads.model';
 import { ProductsImages } from 'src/products/products-image.model';
+import { RelatableProducts } from 'src/products/products-relatable.model';
 import { Products } from 'src/products/products.model';
 
 @Module({
@@ -25,6 +26,7 @@ import { Products } from 'src/products/products.model';
         Categories,
         ProductsImages,
         CategoriesProducts,
+        RelatableProducts,
       ],
       synchronize: false,
     }),

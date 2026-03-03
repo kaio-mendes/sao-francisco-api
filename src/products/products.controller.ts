@@ -9,7 +9,11 @@ export class ProductsController {
   findAll(
     @Query('category') category: string,
     @Query('offset') offset: string,
+    @Query('search') search: string,
   ) {
+    if (search) {
+      return this.productsServices.findBySkuOrName({ search, offset });
+    }
     if (category) {
       return this.productsServices.filterByCategory({ category, offset });
     }

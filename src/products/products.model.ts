@@ -9,6 +9,7 @@ import {
 import { Categories } from 'src/categories/categories.model';
 import { CategoriesProducts } from 'src/categories/categories-products.model';
 import { ProductsImages } from './products-image.model';
+import { RelatableProducts } from './products-relatable.model';
 
 @Table({ tableName: 'produtos', timestamps: false })
 export class Products extends Model {
@@ -82,4 +83,20 @@ export class Products extends Model {
 
   @BelongsToMany(() => Categories, () => CategoriesProducts)
   categories: Categories[];
+
+  @BelongsToMany(() => Products, {
+    through: () => RelatableProducts,
+    as: 'relatedProducts',
+    foreignKey: 'idpai',
+    otherKey: 'idfilho',
+  })
+  relatedProducts: Products[];
+
+  @BelongsToMany(() => Products, {
+    through: () => RelatableProducts,
+    as: 'relatedTo',
+    foreignKey: 'idfilho',
+    otherKey: 'idpai',
+  })
+  relatedTo: Products[];
 }

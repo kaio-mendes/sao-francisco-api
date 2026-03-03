@@ -23,3 +23,7 @@ Accept: application/json
 ###
 GET http://localhost:3010/products/vassoura-bellinha
 Accept: application/json
+
+###
+GET http://localhost:3010/products?search=vassoura
+Accept: application/json
